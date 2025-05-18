@@ -61,7 +61,7 @@ export default function ArmorSelector({
               disabled={isBlocked}
             >
               <option value={0}>0%</option>
-              <option value={2}>2% SP</option>
+              <option value={3}>3% SP</option>
               <option value={5}>5% С-Урон</option>
               <option value={8}>8% SP-Урон</option>
             </select>
