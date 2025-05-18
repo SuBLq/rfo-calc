@@ -17,9 +17,13 @@ const containerStyle = {
 };
 
 const siegeBuffOptions = [
-  { label: "[40lvl] +30%", value: 30 },
+  { label: "[40lvl] +35%", value: 35 },
+  { label: "[40lvl 2 skill] +10%", value: 10 },
   { label: "[50lvl] +40%", value: 40 },
-  { label: "[60lvl] +50%", value: 50 },
+  { label: "[50lvl] +10%", value: 10 },
+  { label: "[55lvl] +60%", value: 60 },
+  { label: "[60lvl] +45%", value: 45 },
+  { label: "[65lvl] +50%", value: 50 },
 ];
 
 const rowStyle = {

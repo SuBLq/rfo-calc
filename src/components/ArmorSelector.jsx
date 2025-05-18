@@ -63,7 +63,7 @@ export default function ArmorSelector({
               <option value={0}>0%</option>
               <option value={2}>2% SP</option>
               <option value={5}>5% С-Урон</option>
-              <option value={7}>7% SP-Урон</option>
+              <option value={8}>8% SP-Урон</option>
             </select>
           );
         })}
@@ -74,7 +74,7 @@ export default function ArmorSelector({
             checked={archonArmor}
             onChange={() => setArchonArmor(!archonArmor)}
           />
-          Броня архонта (+35%)
+          Броня Архонта (+35%)
         </label>
 
         <h4 style={{ marginTop: "16px", marginBottom: "8px" }}>Магическая броня</h4>
