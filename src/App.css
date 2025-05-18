@@ -1,0 +1,234 @@
+
+  .App {
+    text-align: center;
+  }
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #000000; /* темный цвет фона, если изображение не покрывает */
+  background-image: url('./data/background.jpg'); /* путь к твоему изображению */
+  background-repeat: no-repeat;  /* не повторять */
+  background-position: center center; /* расположить по центру */
+  background-size: cover; /* масштабировать так, чтобы всё изображение помещалось, без обрезки */
+  user-select: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.app-container {
+  max-width: 880px;    /* или любой удобный фиксированный размер */
+  margin: 0 auto;      /* центрируем по горизонтали */
+  padding: 20px;       /* отступы внутри, если нужно */
+  background-color: rgba(0, 0, 0, 0.5); /* черный с 50% прозрачностью */
+}
+
+.parent-container {
+  position: relative; /* Важно, чтобы абсолютное позиционирование было относительно этого контейнера */
+  padding: 20px; /* Или сколько нужно */
+}
+
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+.top-left {
+  background-color: #34495e;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+.top-right {
+  background-color: #34495e;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+.bottom-left,
+.bottom-right {
+  background-color: #1f2a38;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* Правый край заголовков */
+.stat-label {
+  color: #8DACDA; 
+  min-width: 100px; 
+  text-align: right;
+  font-weight: bold;
+}
+
+.weapon-stats-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+
+.weapon-details {
+  position: relative;
+  padding-right: 1px; /* место под иконку */
+}
+
+.weapon-title strong {
+  font-size: 20px; /* или любой желаемый размер */
+}
+
+.weapon-icon {
+  position: relative;  /* Важно, чтобы рамка могла позиционироваться относительно этого блока */
+  width: 64px;
+  height: 64px;
+  margin-left: auto;  /* если нужно сдвинуть вправо в flex */
+  
+}
+
+.weapon-icon .frame {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 64px;
+  height: 64px;
+  background-image: url('./data/frame.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.weapon-icon > img {
+  display: block;
+}
+
+.rarity-0 { color: #fbff00; }
+.rarity-1 { color: #fbff00; }
+.rarity-2 { color: #00FF00; }
+.rarity-3 { color: #E7D1B3; }
+.rarity-4 { color: #EAA037; }
+.rarity-5 { color: #1592E2; }
+
+.rarity-default { color: black; }
+
+
+.weapon-selector {
+  max-width: 400px;
+  padding: 8px;
+  background-color: #1F2A38;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-family: "Lucida Console", monospace;
+}
+
+.weapon-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+  background: #2D3F51;
+  border: 1px solid #000000;
+}
+
+.weapon-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #000000;
+  transition: background 0.2s;
+}
+
+.weapon-entry:hover {
+  background-color: #33475B;
+}
+
+.weapon-entry.selected {
+  background-color: #3B5268;
+  font-weight: bold;
+}
+
+.weapon-name {
+  margin-right: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+.weapon-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weapon-icon-wrapper img,
+.weapon-icon-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* если это <img> */
+}
+
+.vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* расстояние между элементами */
+}
+
+.leongrade-selector {
+  margin-top: 10px;
+}
+
+select.gray-select {
+  background-color: #ddd;
+  color: #777;
+  cursor: not-allowed;
+}
+
+.wide-select {
+  width: 160px;
+}
+
+.extra-section {
+  margin-top: 32px; /* ← регулируй отступ как нужно */
+}
