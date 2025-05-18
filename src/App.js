@@ -287,7 +287,7 @@ function App() {
       )}
     </div>
     <div>
-      <span className="stat-label">Эффект:</span>{" "}
+      <span className="stat-label">Собственный эффект:</span>{" "}
       {selectedWeapon.eff != null ? `+${selectedWeapon.eff}%` : "—"}
     </div>
     <div className="stat-line">
