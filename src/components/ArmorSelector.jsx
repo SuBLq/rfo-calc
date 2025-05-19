@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+
 const selectStyle = {
   width: "160px",
   minWidth: "160px",
@@ -25,6 +26,7 @@ export default function ArmorSelector({
   magicArmor,
   setMagicArmor,
   isMagicWeapon,
+  armorData
 }) {
   const onChangeProperty = (idx, value) => {
     const updated = [...armorProperties];
@@ -60,10 +62,11 @@ export default function ArmorSelector({
               onChange={(e) => onChangeProperty(idx, parseInt(e.target.value, 10))}
               disabled={isBlocked}
             >
-              <option value={0}>0%</option>
-              <option value={3}>3% SP</option>
-              <option value={5}>5% С-Урон</option>
-              <option value={8}>8% SP-Урон</option>
+              {armorData.armorOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           );
         })}
@@ -78,13 +81,10 @@ export default function ArmorSelector({
         </label>
 
         <h4 style={{ marginTop: "16px", marginBottom: "8px" }}>Магическая броня</h4>
-        {[6, 8, 8, 6, 6].map((percent, idx) => {
+        {armorData.magicArmorPercents.map((percent, idx) => {
           const isDisabled = !isMagicWeapon;
           return (
-            <label
-              key={idx}
-              style={{ color: isDisabled ? "gray" : "inherit" }}
-            >
+            <label key={idx} style={{ color: isDisabled ? "gray" : "inherit" }}>
               <input
                 type="checkbox"
                 checked={magicArmor[idx]}

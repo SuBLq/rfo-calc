@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import dopingData from '../data/dops.json';
 
 const selectStyle = {
   width: "160px",
@@ -16,15 +15,6 @@ const containerStyle = {
   marginBottom: "20px",
 };
 
-const siegeBuffOptions = [
-  { label: "[40lvl] +35%", value: 35 },
-  { label: "[40lvl 2 skill] +10%", value: 10 },
-  { label: "[50lvl] +40%", value: 40 },
-  { label: "[50lvl] +10%", value: 10 },
-  { label: "[55lvl] +60%", value: 60 },
-  { label: "[60lvl] +45%", value: 45 },
-  { label: "[65lvl] +50%", value: 50 },
-];
 
 const rowStyle = {
   display: "flex",
@@ -51,7 +41,6 @@ export default function BuffSelector({
   setRace,
   allowedRaces,
   weaponType,
-  buffsByRace,
   selectedBuffs,
   toggleBuff,
   supportBuff,
@@ -64,17 +53,20 @@ export default function BuffSelector({
   setActiveDoping,
   attackGeneratorCount,
   setAttackGeneratorCount,
+  AnyBuffsConfig,
+  DopsConfig,
+  RaceBuffsConfig,
 }) {
   const [dopingOptions, setDopingOptions] = useState([]);
 
   useEffect(() => {
-    setDopingOptions(dopingData);
+    setDopingOptions(DopsConfig);
   }, []);
 
   const allBuffs = React.useMemo(() => {
-    if (!buffsByRace[race]) return [];
-    return buffsByRace[race][String(weaponType)] || [];
-  }, [race, weaponType, buffsByRace]);
+    if (!RaceBuffsConfig.classBuffsByRace?.[race]) return [];
+    return RaceBuffsConfig.classBuffsByRace[race][String(weaponType)] || [];
+  }, [race, weaponType, RaceBuffsConfig]);
 
   const positiveBuffs = allBuffs.filter((b) => b.percent > 0);
 
@@ -99,15 +91,15 @@ export default function BuffSelector({
             value={race}
             onChange={(e) => setRace(e.target.value)}
           >
-            {allowedRaces.map((r) => (
-              <option key={r} value={r}>
+            {allowedRaces.map((r, i) => (
+              <option key={`race-${r}-${i}`} value={r}>
                 {r}
               </option>
             ))}
           </select>
         </div>
       </div>
-
+  
       {/* Положительные баффы */}
       <div style={containerStyle}>
         <h3>Баффы для {race}, тип оружия {weaponType}:</h3>
@@ -117,7 +109,7 @@ export default function BuffSelector({
             const isSelected = selectedBuffs.includes(buff.name);
             return (
               <label
-                key={buff.name}
+                key={`buff-${buff.name}`}
                 style={buffLabelStyle(isSelected)}
                 onMouseEnter={(e) => handleMouseEnter(e, isSelected)}
                 onMouseLeave={(e) => handleMouseLeave(e, isSelected)}
@@ -137,7 +129,7 @@ export default function BuffSelector({
           })}
         </div>
       </div>
-
+  
       {/* Осадный набор */}
       {race === "Акретия" && weaponType === 4 && (
         <div style={{ ...containerStyle, marginTop: "12px" }}>
@@ -148,15 +140,15 @@ export default function BuffSelector({
             onChange={(e) => setSiegeSetBuff(parseInt(e.target.value))}
           >
             <option value={0}>Нет</option>
-            {siegeBuffOptions.map(({ label, value }) => (
-              <option key={value} value={value}>
+            {AnyBuffsConfig.siegeBuffOptions.map(({ label, value }, i) => (
+              <option key={`siege-${value}-${i}`} value={value}>
                 {label}
               </option>
             ))}
           </select>
         </div>
       )}
-
+  
       {/* Поддержка и расовый бафф */}
       <div style={containerStyle}>
         <div style={rowStyle}>
@@ -166,13 +158,15 @@ export default function BuffSelector({
             value={supportBuff}
             onChange={(e) => setSupportBuff(parseInt(e.target.value))}
           >
-            <option value={0}>0%</option>
-            <option value={20}>20%</option>
-            <option value={40}>40%</option>
+            {AnyBuffsConfig.supportBuffOptions.map(({ label, value }, i) => (
+              <option key={`support-${value}-${i}`} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
-
+  
       <div style={containerStyle}>
         <div style={rowStyle}>
           <label>Расовый бафф/дебаф: </label>
@@ -181,16 +175,15 @@ export default function BuffSelector({
             value={racialBuff}
             onChange={(e) => setRacialBuff(parseInt(e.target.value))}
           >
-            {[-15, -10, -5, 0, 5, 10, 15].map((val) => (
-              <option key={val} value={val}>
-                {val > 0 ? "+" : ""}
-                {val}%
+            {AnyBuffsConfig.racialBuffOptions.map(({ label, value }, i) => (
+              <option key={`racial-${value}-${i}`} value={value}>
+                {label}
               </option>
             ))}
           </select>
         </div>
       </div>
-
+  
       {/* Активный допинг */}
       <div style={containerStyle}>
         <div style={rowStyle}>
@@ -201,32 +194,33 @@ export default function BuffSelector({
             onChange={(e) => setActiveDoping(parseInt(e.target.value))}
           >
             <option value={0}>Без допинга</option>
-            {dopingOptions.map(({ label, value }) => (
-              <option key={value} value={value}>
+            {DopsConfig.dopingOptions.map(({ label, value }, i) => (
+              <option key={`doping-${value}-${i}`} value={value}>
                 {label}
               </option>
             ))}
           </select>
         </div>
       </div>
-
+  
       {/* Генераторы атаки */}
       <div style={containerStyle}>
         <div style={rowStyle}>
           <label>Генераторы атаки: </label>
           <select
-    style={selectStyle}
-    value={attackGeneratorCount}
-    onChange={(e) => setAttackGeneratorCount(parseInt(e.target.value))}
-  >
-    {[0, 1, 2, 3, 4, 5].map((count) => (
-      <option key={count} value={count}>
-        {count} шт. (+{count * 4}%)
-      </option>
-    ))}
-  </select>
+            style={selectStyle}
+            value={attackGeneratorCount}
+            onChange={(e) => setAttackGeneratorCount(parseInt(e.target.value, 10))}
+          >
+            {AnyBuffsConfig.attackGeneratorOptions.map(({ label, value }, i) => (
+              <option key={`attack-gen-${value}-${i}`} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
   );
+  
 }

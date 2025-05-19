@@ -1,5 +1,7 @@
 
-[
+{
+    "dopingOptions":[
+    { "label": "5%", "value": 5 },
   { "label": "10%", "value": 10 },
   { "label": "13%", "value": 13 },
   { "label": "20%", "value": 20 },
@@ -10,3 +12,4 @@
   { "label": "60%", "value": 60 },
   { "label": "70%", "value": 70 }
 ]
+}

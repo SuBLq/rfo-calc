@@ -1,0 +1,9 @@
+{
+  "armorOptions": [
+    { "value": 0, "label": "0%" },
+    { "value": 2, "label": "2% SP" },
+    { "value": 5, "label": "5% С-Урон" },
+    { "value": 7, "label": "7% SP-Урон" }
+  ],
+  "magicArmorPercents": [6, 8, 8, 6, 6]
+}

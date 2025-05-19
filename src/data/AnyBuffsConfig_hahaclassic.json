@@ -1,0 +1,32 @@
+{
+  "siegeBuffOptions": [
+    { "label": "[40lvl] +35%", "value": 35 },
+    { "label": "[50lvl] +40%", "value": 40 },
+    { "label": "[50lvl] +10%", "value": 10 },
+    { "label": "[55lvl] +60%", "value": 60 },
+    { "label": "[60lvl] +45%", "value": 45 },
+    { "label": "[65lvl] +50%", "value": 50 }
+  ],
+  "supportBuffOptions": [
+    { "label": "0%", "value": 0 },
+    { "label": "20%", "value": 20 },
+    { "label": "40%", "value": 40 }
+  ],
+  "racialBuffOptions": [
+    { "label": "-15%", "value": -15 },
+    { "label": "-10%", "value": -10 },
+    { "label": "-5%",  "value": -5 },
+    { "label": "0%",   "value": 0 },
+    { "label": "+5%",  "value": 5 },
+    { "label": "+10%", "value": 10 },
+    { "label": "+15%", "value": 15 }
+  ],
+  "attackGeneratorOptions": [
+  { "label": "0 шт. (+0%)", "value": 0 },
+  { "label": "1 шт. (+4%)", "value": 4 },
+  { "label": "2 шт. (+8%)", "value": 8 },
+  { "label": "3 шт. (+12%)", "value": 12 },
+  { "label": "4 шт. (+16%)", "value": 16 },
+  { "label": "5 шт. (+20%)", "value": 20 }
+]
+}

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import './App.css';
 import { useEffect } from "react";
-import weaponsData from "./data/weapons.json";
 import WeaponSelector from "./components/WeaponSelector";
 import DamageCalculator from "./components/DamageCalculator";
 import WeaponEditor from "./components/WeaponEditor";
@@ -10,7 +9,22 @@ import AccessorySelector from "./components/AccessorySelector";
 import LeongradeSelector from './components/LeongradeSelector';
 import ArmorSelector from "./components/ArmorSelector";
 import BuffSelector from "./components/BuffSelector";
-import buffs from "./data/buffs.json";
+
+import armorDataStandard from "./data/armorData_hahaclassic.json";
+import armorDataCerberus from "./data/armorData_cerberus.json";
+
+import AnyBuffsConfig_cerberus from './data/AnyBuffsConfig_cerberus.json';
+import AnyBuffsConfig_hahaclassic from './data/AnyBuffsConfig_hahaclassic.json';
+
+import DopsConfig_cerberus from './data/DopsConfig_cerberus.json';
+import DopsConfig_hahaclassic from './data/DopsConfig_hahaclassic.json';
+
+import WeaponsConfig_cerberus from './data/WeaponsConfig_cerberus';
+import WeaponsConfig_hahaclassic from './data/WeaponsConfig_hahaclassic';
+
+import RaceBuffsConfig_cerberus from './data/RaceBuffsConfig_cerberus';
+import RaceBuffsConfig_hahaclassic from './data/RaceBuffsConfig_hahaclassic.json';
+
 
 import grade0 from './data/talic/0.png';
 import grade1 from './data/talic/1.png';
@@ -29,6 +43,16 @@ const weaponMods = [0, 5, 10, 20, 45, 90, 145, 200];
 const DefWeaponMods = [0, 5, 13, 25, 50, 80, 135, 200];
 
 function App() {
+
+  // ----------------------
+  
+  const [mode, setMode] = useState("cerberus");
+  const armorData = mode === "cerberus" ? armorDataCerberus : armorDataStandard;
+  const AnyBuffsConfig = mode === "cerberus" ? AnyBuffsConfig_cerberus : AnyBuffsConfig_hahaclassic;
+  const DopsConfig = mode === "cerberus" ? DopsConfig_cerberus : DopsConfig_hahaclassic;
+  const WeaponConfig = mode === "cerberus" ? WeaponsConfig_cerberus : WeaponsConfig_hahaclassic;
+  const RaceBuffsConfig = mode === "cerberus" ? RaceBuffsConfig_cerberus : RaceBuffsConfig_hahaclassic;
+  // ----------------------
 
   const containerStyle = {
     display: "grid",
@@ -74,13 +98,13 @@ function App() {
   const [leongradeLevel, setLeongradeLevel] = React.useState(0);
   const [selectedLeongrade, setSelectedLeongrade] = React.useState(null);
 
-  const weapons = [...weaponsData, ...customWeapons];
-
+  const weapons = [...(WeaponConfig.cerb || []), ...customWeapons];
+  
   const selectedWeapon = weapons.find(w => w.id === selectedId);
 
   const weaponType = selectedWeapon?.type || 1;
 
-  const buffsForSelection = buffs[race]?.[weaponType] || [];
+  const buffsForSelection = RaceBuffsConfig.classBuffsByRace?.[race]?.[weaponType] || [];
 
   const [activeDoping, setActiveDoping] = React.useState(0);
 
@@ -132,9 +156,19 @@ function App() {
   const [generatorBonus, setGeneratorBonus] = React.useState(0);
 
   React.useEffect(() => {
-    setGeneratorBonus(attackGeneratorCount * 4);
+    setGeneratorBonus(attackGeneratorCount);
   }, [attackGeneratorCount]);
 
+  React.useEffect(() => {
+    // При смене режима или ключевых параметров сбрасываем селекторы в дефолт
+    setSiegeSetBuff(0);
+    setSupportBuff(0);
+    setRacialBuff(0);
+    setActiveDoping(0);
+    setAttackGeneratorCount(0);
+    setSelectedBuffs([]);
+  }, [mode, race, weaponType]);
+  
   React.useEffect(() => {
     if (!selectedWeapon) return;
 
@@ -171,9 +205,10 @@ function App() {
         
       </div>
       <WeaponSelector 
-  weapons={weapons} 
+  weapons={weapons}
   onSelect={setSelectedId} 
   selectedWeaponId={selectedId} 
+  WeaponConfig={WeaponConfig}
 />
 
 
@@ -335,7 +370,6 @@ function App() {
             setRace={setRace}
             allowedRaces={allowedRaces}
             weaponType={weaponType}
-            buffsByRace={buffs}
             selectedBuffs={selectedBuffs}
             toggleBuff={toggleBuff}
             supportBuff={supportBuff}
@@ -348,6 +382,9 @@ function App() {
             setActiveDoping={setActiveDoping}
             attackGeneratorCount={attackGeneratorCount}
             setAttackGeneratorCount={setAttackGeneratorCount}  
+            AnyBuffsConfig={AnyBuffsConfig}
+            DopsConfig={DopsConfig}
+            RaceBuffsConfig={RaceBuffsConfig}
           />
     </div>
 
@@ -367,20 +404,47 @@ function App() {
     onSetBonusChange={setSetBonus}
   />
 
-  <ArmorSelector 
-    armorProperties={armorProperties}
-    setArmorProperties={setArmorProperties}
-    archonArmor={archonArmor}
-    setArchonArmor={setArchonArmor}
-    magicArmor={magicArmor}
-    setMagicArmor={setMagicArmor}
-    isMagicWeapon={isMagicWeapon}
-  />
+<ArmorSelector
+        armorProperties={armorProperties}
+        setArmorProperties={setArmorProperties}
+        archonArmor={archonArmor}
+        setArchonArmor={setArchonArmor}
+        magicArmor={magicArmor}
+        setMagicArmor={setMagicArmor}
+        isMagicWeapon={isMagicWeapon}
+        armorData={armorData}
+      />
 </div>
 
         </div>
       </div>
+      <div className="extra-section">
+      <div className="bottom-left">
+      <div style={{ 
+  backgroundColor: '#34495e', 
+  padding: '12px 16px',  
+  margin: '16px 0'
+}}>
+  <label>
+  Выбор, для какого сервера расчёт (баффы, талики и т.д.):{' '}   
+  <select
+    value={mode}
+    onChange={(e) => {
+      const selectedMode = e.target.value;
+      setMode(selectedMode);
 
+      // Включаем дефолтные значения Невежества при режиме "standard"
+      setIsDefWeapon(selectedMode === "standard");
+    }}
+  >
+    <option value="cerberus">Cerberus Games</option>
+    <option value="standard">Стандарт</option>
+  </select>
+</label>
+      
+    </div>
+      </div>
+        </div>
       <div className="extra-section">
     {}
     <div className="bottom-left">
@@ -391,31 +455,21 @@ function App() {
 
       <WeaponEditor onAdd={handleAddWeapon} race="Акретия" />
     </div>
+    <button
+  onClick={clearCustomWeapons}
+  className="clear-button"
+>
+  Очистить добавленное кастомное оружие (необратимо)
+</button>
     </div>
+    
     <div>
+      
     <h2>Справка и доп.настройки</h2>
     <p>Редкость (rare) оружия - его класс. 0 - инта, 1 - кримс, 2 - леон, 3 - пвп, 4 - нуборел, 5 - рел</p>
     <p>fmin и fmax - Атака Силой, минимум и максимум соответственно.</p>
     <p>От слота зависят доступные баффы и прочее.</p>
-    <div style={{ 
-  backgroundColor: '#34495e', 
-  padding: '12px 16px',  
-  margin: '16px 0'
-}}>
-  <label>
-    <input
-      type="checkbox"
-      checked={isDefWeapon}
-      onChange={(e) => setIsDefWeapon(e.target.checked)}
-    />
-    Стандартные значения талик Невежества
-  </label>
-  <h4></h4>
-  <button onClick={clearCustomWeapons}>
-    Очистить добавленное кастомное оружие (необратимо)
-  </button>
-</div>
-
+    
 
 
 

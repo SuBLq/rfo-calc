@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const percentageOptions = [3, 5, 7, 10, 12, 15, 20, 25, 30, 35, 40];
+const percentageOptions = [3, 5, 7, 10, 12, 15, 18, 20, 22, 23, 25, 26, 30, 35, 40];
 
 const inputSelectStyle = {
   width: "160px",

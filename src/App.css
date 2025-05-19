@@ -17,11 +17,11 @@
 html, body {
   height: 100%;
   margin: 0;
-  background-color: #000000; /* темный цвет фона, если изображение не покрывает */
-  background-image: url('./data/background.jpg'); /* путь к твоему изображению */
-  background-repeat: no-repeat;  /* не повторять */
-  background-position: center center; /* расположить по центру */
-  background-size: cover; /* масштабировать так, чтобы всё изображение помещалось, без обрезки */
+  background-color: #000000; 
+  background-image: url('./data/background.jpg'); 
+  background-repeat: no-repeat;  
+  background-position: center center; 
+  background-size: cover; 
   user-select: none;
 }
 
@@ -50,15 +50,15 @@ html, body {
 }
 
 .app-container {
-  max-width: 880px;    /* или любой удобный фиксированный размер */
-  margin: 0 auto;      /* центрируем по горизонтали */
-  padding: 20px;       /* отступы внутри, если нужно */
-  background-color: rgba(0, 0, 0, 0.5); /* черный с 50% прозрачностью */
+  max-width: 880px;   
+  margin: 0 auto;    
+  padding: 20px;       
+  background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .parent-container {
-  position: relative; /* Важно, чтобы абсолютное позиционирование было относительно этого контейнера */
-  padding: 20px; /* Или сколько нужно */
+  position: relative; 
+  padding: 20px; 
 }
 
 .grid-2x2 {
@@ -90,7 +90,7 @@ html, body {
   color: white;
 }
 
-/* Правый край заголовков */
+
 .stat-label {
   color: #8DACDA; 
   min-width: 100px; 
@@ -107,18 +107,18 @@ html, body {
 
 .weapon-details {
   position: relative;
-  padding-right: 1px; /* место под иконку */
+  padding-right: 1px;
 }
 
 .weapon-title strong {
-  font-size: 20px; /* или любой желаемый размер */
+  font-size: 20px; 
 }
 
 .weapon-icon {
-  position: relative;  /* Важно, чтобы рамка могла позиционироваться относительно этого блока */
+  position: relative; 
   width: 64px;
   height: 64px;
-  margin-left: auto;  /* если нужно сдвинуть вправо в flex */
+  margin-left: auto;  
   
 }
 
@@ -206,13 +206,13 @@ html, body {
 .weapon-icon-wrapper canvas {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* если это <img> */
+  object-fit: contain;
 }
 
 .vertical-list {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* расстояние между элементами */
+  gap: 12px; 
 }
 
 .leongrade-selector {
@@ -230,5 +230,9 @@ select.gray-select {
 }
 
 .extra-section {
-  margin-top: 32px; /* ← регулируй отступ как нужно */
+  margin-top: 32px; 
+}
+
+.clear-button {
+  margin-top: 16px; 
 }
