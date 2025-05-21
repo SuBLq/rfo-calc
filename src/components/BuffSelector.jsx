@@ -47,6 +47,8 @@ export default function BuffSelector({
   setSupportBuff,
   racialBuff,
   setRacialBuff,
+  antigravBuff,
+  setAntigravBuff,
   siegeSetBuff,
   setSiegeSetBuff,
   activeDoping,
@@ -56,6 +58,7 @@ export default function BuffSelector({
   AnyBuffsConfig,
   DopsConfig,
   RaceBuffsConfig,
+  mode,
 }) {
   const [dopingOptions, setDopingOptions] = useState([]);
 
@@ -149,77 +152,91 @@ export default function BuffSelector({
         </div>
       )}
   
-      {/* Поддержка и расовый бафф */}
-      <div style={containerStyle}>
-        <div style={rowStyle}>
-          <label>Бафф поддержки: </label>
-          <select
-            style={selectStyle}
-            value={supportBuff}
-            onChange={(e) => setSupportBuff(parseInt(e.target.value))}
-          >
-            {AnyBuffsConfig.supportBuffOptions.map(({ label, value }, i) => (
-              <option key={`support-${value}-${i}`} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-  
-      <div style={containerStyle}>
-        <div style={rowStyle}>
-          <label>Расовый бафф/дебаф: </label>
-          <select
-            style={selectStyle}
-            value={racialBuff}
-            onChange={(e) => setRacialBuff(parseInt(e.target.value))}
-          >
-            {AnyBuffsConfig.racialBuffOptions.map(({ label, value }, i) => (
-              <option key={`racial-${value}-${i}`} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-  
-      {/* Активный допинг */}
-      <div style={containerStyle}>
-        <div style={rowStyle}>
-          <label>Активный допинг: </label>
-          <select
-            style={selectStyle}
-            value={activeDoping}
-            onChange={(e) => setActiveDoping(parseInt(e.target.value))}
-          >
-            <option value={0}>Без допинга</option>
-            {DopsConfig.dopingOptions.map(({ label, value }, i) => (
-              <option key={`doping-${value}-${i}`} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-  
-      {/* Генераторы атаки */}
-      <div style={containerStyle}>
-        <div style={rowStyle}>
-          <label>Генераторы атаки: </label>
-          <select
-            style={selectStyle}
-            value={attackGeneratorCount}
-            onChange={(e) => setAttackGeneratorCount(parseInt(e.target.value, 10))}
-          >
-            {AnyBuffsConfig.attackGeneratorOptions.map(({ label, value }, i) => (
-              <option key={`attack-gen-${value}-${i}`} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+  <div style={containerStyle}>
+  {/* Бафф поддержки */}
+  <div style={rowStyle}>
+    <label>Бафф поддержки: </label>
+    <select
+      style={selectStyle}
+      value={supportBuff}
+      onChange={(e) => setSupportBuff(parseInt(e.target.value))}
+    >
+      {AnyBuffsConfig.supportBuffOptions.map(({ label, value }, i) => (
+        <option key={`support-${value}-${i}`} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Расовый бафф/дебаф */}
+  <div style={rowStyle}>
+    <label>Расовый бафф/дебаф: </label>
+    <select
+      style={selectStyle}
+      value={racialBuff}
+      onChange={(e) => setRacialBuff(parseInt(e.target.value))}
+    >
+      {AnyBuffsConfig.racialBuffOptions.map(({ label, value }, i) => (
+        <option key={`racial-${value}-${i}`} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Антиграв (только для reuleaux) */}
+  {mode === "reuleaux" && (
+    <div style={rowStyle}>
+      <label>Антиграв (Урон): </label>
+      <select
+        style={selectStyle}
+        value={antigravBuff}
+        onChange={(e) => setAntigravBuff(parseInt(e.target.value))}
+      >
+        {AnyBuffsConfig.antigravBuffOptions.map(({ label, value }, i) => (
+          <option key={`antigrav-${value}-${i}`} value={value}>
+            {label}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+
+  {/* Активный допинг */}
+  <div style={rowStyle}>
+    <label>Активный допинг: </label>
+    <select
+      style={selectStyle}
+      value={activeDoping}
+      onChange={(e) => setActiveDoping(parseInt(e.target.value))}
+    >
+      <option value={0}>Без допинга</option>
+      {DopsConfig.dopingOptions.map(({ label, value }, i) => (
+        <option key={`doping-${value}-${i}`} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Генераторы атаки */}
+  <div style={rowStyle}>
+    <label>Генераторы атаки: </label>
+    <select
+      style={selectStyle}
+      value={attackGeneratorCount}
+      onChange={(e) => setAttackGeneratorCount(parseInt(e.target.value, 10))}
+    >
+      {AnyBuffsConfig.attackGeneratorOptions.map(({ label, value }, i) => (
+        <option key={`attack-gen-${value}-${i}`} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+
     </div>
   );
   

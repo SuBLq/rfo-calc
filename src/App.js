@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './App.css';
-import { useEffect } from "react";
+
 import WeaponSelector from "./components/WeaponSelector";
 import DamageCalculator from "./components/DamageCalculator";
 import WeaponEditor from "./components/WeaponEditor";
@@ -12,19 +12,23 @@ import BuffSelector from "./components/BuffSelector";
 
 import armorDataStandard from "./data/armorData_hahaclassic.json";
 import armorDataCerberus from "./data/armorData_cerberus.json";
+import armorDataReuleaux from "./data/armorData_reuleaux.json";
 
 import AnyBuffsConfig_cerberus from './data/AnyBuffsConfig_cerberus.json';
 import AnyBuffsConfig_hahaclassic from './data/AnyBuffsConfig_hahaclassic.json';
+import AnyBuffsConfig_reuleaux from './data/AnyBuffsConfig_reuleaux.json';
 
 import DopsConfig_cerberus from './data/DopsConfig_cerberus.json';
 import DopsConfig_hahaclassic from './data/DopsConfig_hahaclassic.json';
+import DopsConfig_reuleaux from './data/DopsConfig_reuleaux.json';
 
 import WeaponsConfig_cerberus from './data/WeaponsConfig_cerberus';
 import WeaponsConfig_hahaclassic from './data/WeaponsConfig_hahaclassic';
+import WeaponsConfig_reuleaux from './data/WeaponsConfig_reuleaux.json';
 
 import RaceBuffsConfig_cerberus from './data/RaceBuffsConfig_cerberus';
 import RaceBuffsConfig_hahaclassic from './data/RaceBuffsConfig_hahaclassic.json';
-
+import RaceBuffsConfig_reuleaux from './data/RaceBuffsConfig_reuleaux.json';
 
 import grade0 from './data/talic/0.png';
 import grade1 from './data/talic/1.png';
@@ -39,29 +43,69 @@ import frameImg from './data/frame.png';
 
 const gradeImages = [grade0, grade1, grade2, grade3, grade4, grade5, grade6, grade7];
 
-const weaponMods = [0, 5, 10, 20, 45, 90, 145, 200]; 
-const DefWeaponMods = [0, 5, 13, 25, 50, 80, 135, 200];
+const weaponMods = [0, 5, 13, 25, 50, 80, 135, 200];
+const DefWeaponMods = [0, 5, 10, 20, 45, 90, 145, 200]; 
+
+function ServerSelectorModal({ onSelect }) {
+  return (
+    <div style={{
+      position: "fixed",
+      top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    }}>
+      <div style={{
+        backgroundColor: "#34495e",
+        padding: "2rem",
+        borderRadius: "8px",
+        minWidth: "300px",
+        textAlign: "center",
+      }}>
+        <h2 style={{ color: "#ffffff" }}>
+  Выберите сервер для расчёта (меняется в нижнем блоке калькулятора)
+</h2>
+        <button onClick={() => onSelect("cerberus")} style={{ margin: "0.5rem" }}>Cerberus Games</button>
+        <button onClick={() => onSelect("reuleaux")} style={{ margin: "0.5rem" }}>Reuleaux</button>
+        <button onClick={() => onSelect("standard")} style={{ margin: "0.5rem" }}>Стандарт</button>
+      </div>
+    </div>
+  );
+}
 
 function App() {
-
-  // ----------------------
   
-  const [mode, setMode] = useState("cerberus");
-  const armorData = mode === "cerberus" ? armorDataCerberus : armorDataStandard;
-  const AnyBuffsConfig = mode === "cerberus" ? AnyBuffsConfig_cerberus : AnyBuffsConfig_hahaclassic;
-  const DopsConfig = mode === "cerberus" ? DopsConfig_cerberus : DopsConfig_hahaclassic;
-  const WeaponConfig = mode === "cerberus" ? WeaponsConfig_cerberus : WeaponsConfig_hahaclassic;
-  const RaceBuffsConfig = mode === "cerberus" ? RaceBuffsConfig_cerberus : RaceBuffsConfig_hahaclassic;
+  const [mode, setMode] = useState(null);
+  // ----------------------
+  let armorData, AnyBuffsConfig, DopsConfig, WeaponConfig, RaceBuffsConfig;
+
+  switch (mode) {
+    case "cerberus":
+      armorData = armorDataCerberus;
+      AnyBuffsConfig = AnyBuffsConfig_cerberus;
+      DopsConfig = DopsConfig_cerberus;
+      WeaponConfig = WeaponsConfig_cerberus;
+      RaceBuffsConfig = RaceBuffsConfig_cerberus;
+      break;
+    case "reuleaux":
+      armorData = armorDataReuleaux;
+      AnyBuffsConfig = AnyBuffsConfig_reuleaux;
+      DopsConfig = DopsConfig_reuleaux;
+      WeaponConfig = WeaponsConfig_reuleaux;
+      RaceBuffsConfig = RaceBuffsConfig_reuleaux;
+      break;
+    default: // "standard" или любой неизвестный
+      armorData = armorDataStandard;
+      AnyBuffsConfig = AnyBuffsConfig_hahaclassic;
+      DopsConfig = DopsConfig_hahaclassic;
+      WeaponConfig = WeaponsConfig_hahaclassic;
+      RaceBuffsConfig = RaceBuffsConfig_hahaclassic;
+      break;
+  }
   // ----------------------
 
-  const containerStyle = {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "24px",
-    alignItems: "start",
-    width: "100%",
-    maxWidth: "720px",
-  };
 
   const [isDefWeapon, setIsDefWeapon] = React.useState(false);
   const activeWeaponMods = isDefWeapon ? DefWeaponMods : weaponMods;
@@ -78,6 +122,7 @@ function App() {
 
   const [supportBuff, setSupportBuff] = React.useState(0);
   const [racialBuff, setRacialBuff] = React.useState(0);
+  const [antigravBuff, setAntigravBuff] = React.useState(0);
   const [selectedBuffs, setSelectedBuffs] = React.useState([]);
   const [accessoryBonuses, setAccessoryBonuses] = React.useState([0, 0, 0, 0]);
   const [setBonus, setSetBonus] = React.useState(0);
@@ -155,6 +200,9 @@ function App() {
   const [attackGeneratorCount, setAttackGeneratorCount] = React.useState(0);
   const [generatorBonus, setGeneratorBonus] = React.useState(0);
 
+  const [damageBoostMultiplier, setDamageBoostMultiplier] = useState(1);
+  const damageSuffix = damageBoostMultiplier === 1.025 ? "+" : damageBoostMultiplier === 1.05 ? "++" : "";
+
   React.useEffect(() => {
     setGeneratorBonus(attackGeneratorCount);
   }, [attackGeneratorCount]);
@@ -163,6 +211,7 @@ function App() {
     // При смене режима или ключевых параметров сбрасываем селекторы в дефолт
     setSiegeSetBuff(0);
     setSupportBuff(0);
+    setAntigravBuff(0);
     setRacialBuff(0);
     setActiveDoping(0);
     setAttackGeneratorCount(0);
@@ -187,13 +236,16 @@ function App() {
 
 
 
-
-
-
-
   //  ОТРИСОВКА ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+// ОТРИСОВКА СНОВА БЛ ----------------------------------------------------------
+
+  if (!mode) {
+    return <ServerSelectorModal onSelect={setMode} />;
+  }
 
   return (
     <div className="app-container">
@@ -224,6 +276,40 @@ function App() {
         </option>
       ))}
     </select>
+    {mode === "reuleaux" && (
+  <div style={{ marginBottom: '16px' }}>
+  <label>Качество оружия: </label><br />
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1}
+      onChange={() => setDamageBoostMultiplier(1)}
+    />
+    (+0% к базе)
+  </label>
+  {' '}
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1.025}
+      onChange={() => setDamageBoostMultiplier(1.025)}
+    />
+    (+2.5% к базе)
+  </label>
+  {' '}
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1.05}
+      onChange={() => setDamageBoostMultiplier(1.05)}
+    />
+    (+5% к базе)
+  </label>
+</div>
+)}
 
   <LeongradeSelector
   weapon={selectedWeapon}
@@ -278,8 +364,8 @@ function App() {
   }}
 >
   <strong className={rarityClass}>
-    [{selectedWeapon?.name || "Выберите оружие"}]
-  </strong>
+  [{(selectedWeapon?.name || "Выберите оружие") + damageSuffix}]
+</strong>
 </div>
 
     {selectedWeapon && (
@@ -288,27 +374,33 @@ function App() {
       <span className="stat-label">Необходимый уровень:</span> {selectedWeapon.level ?? "—"}
     </div>
     <div>
-      <span className="stat-label">Атака:</span>{" "}
-      {isTypeB ? (
-        
-        <>
-          {selectedWeapon.imin ?? "?"} - {selectedWeapon.imax ?? "?"}
-        </>
-      ) : (
-        
-        <>
-          <span style={activeWeaponMods[weaponModIndex] > 0 ? { color: "#0AFF17" } : undefined}>
-            {selectedWeapon.min != null
-              ? Math.round(selectedWeapon.min * (1 + activeWeaponMods[weaponModIndex] / 100))
-              : "?"}
-            {" - "}
-            {selectedWeapon.max != null
-              ? Math.round(selectedWeapon.max * (1 + activeWeaponMods[weaponModIndex] / 100))
-              : "?"}
-          </span>
-        </>
-      )}
-    </div>
+  <span className="stat-label">Атака:</span>{" "}
+  {isTypeB ? (
+    <>
+      {selectedWeapon.imin ?? "?"} - {selectedWeapon.imax ?? "?"}
+    </>
+  ) : (
+    <>
+      <span style={activeWeaponMods[weaponModIndex] > 0 ? { color: "#0AFF17" } : undefined}>
+        {selectedWeapon.min != null
+          ? Math.round(
+              selectedWeapon.min *
+              (1 + activeWeaponMods[weaponModIndex] / 100) *
+              damageBoostMultiplier  // <-- добавляем сюда
+            )
+          : "?"}
+        {" - "}
+        {selectedWeapon.max != null
+          ? Math.round(
+              selectedWeapon.max *
+              (1 + activeWeaponMods[weaponModIndex] / 100) *
+              damageBoostMultiplier  // <-- и сюда
+            )
+          : "?"}
+      </span>
+    </>
+  )}
+</div>
     <div>
       <span className="stat-label">Силовая атака:</span>{" "}
       {(selectedWeapon.fmin != null && selectedWeapon.fmax != null) ? (
@@ -340,22 +432,25 @@ function App() {
 
 
 <DamageCalculator
-  weapon={selectedWeapon}
-  accessoryBonuses={accessoryBonuses}
-  setBonus={setBonus}
-  buffs={buffsForSelection.filter(b => selectedBuffs.includes(b.name))}
-  weaponModPercent={activeWeaponMods[weaponModIndex]}
-  supportBuff={supportBuff}
-  racialBuff={racialBuff}
-  armorPropsBonus={armorPropsSum}
-  archonBonus={archonBonus}
-  magicArmorBonus={magicArmorBonus}
-  upgrade={weaponModIndex}
-  leongradeBonus={leongradePercent}
-  siegeSetBonus={siegeSetBuff}
-  dopingBonus={activeDoping}    
-  generatorBonus={generatorBonus}   
-/>
+        weapon={selectedWeapon}
+        accessoryBonuses={accessoryBonuses}
+        setBonus={setBonus}
+        buffs={buffsForSelection.filter(b => selectedBuffs.includes(b.name))}
+        weaponModPercent={activeWeaponMods[weaponModIndex]}
+        supportBuff={supportBuff}
+        racialBuff={racialBuff}
+        antigravBuff={antigravBuff}
+        armorPropsBonus={armorPropsSum}
+        archonBonus={archonBonus}
+        magicArmorBonus={magicArmorBonus}
+        upgrade={weaponModIndex}
+        leongradeBonus={leongradePercent}
+        siegeSetBonus={siegeSetBuff}
+        dopingBonus={activeDoping}
+        generatorBonus={generatorBonus}
+        damageBoostMultiplier={damageBoostMultiplier} 
+        mode={mode}
+      />
 
   </div>
 </div>
@@ -376,6 +471,7 @@ function App() {
             setSupportBuff={setSupportBuff}
             racialBuff={racialBuff}
             setRacialBuff={setRacialBuff}
+            setAntigravBuff={setAntigravBuff}
             siegeSetBuff={siegeSetBuff}
             setSiegeSetBuff={setSiegeSetBuff}
             activeDoping={activeDoping}
@@ -385,6 +481,7 @@ function App() {
             AnyBuffsConfig={AnyBuffsConfig}
             DopsConfig={DopsConfig}
             RaceBuffsConfig={RaceBuffsConfig}
+            mode={mode}
           />
     </div>
 
@@ -428,18 +525,19 @@ function App() {
   <label>
   Выбор, для какого сервера расчёт (баффы, талики и т.д.):{' '}   
   <select
-    value={mode}
-    onChange={(e) => {
-      const selectedMode = e.target.value;
-      setMode(selectedMode);
+  value={mode}
+  onChange={(e) => {
+    const selectedMode = e.target.value;
+    setMode(selectedMode);
 
-      // Включаем дефолтные значения Невежества при режиме "standard"
-      setIsDefWeapon(selectedMode === "standard");
-    }}
-  >
-    <option value="cerberus">Cerberus Games</option>
-    <option value="standard">Стандарт</option>
-  </select>
+    // Включаем дефолтное оружие только для стандартного режима
+    setIsDefWeapon(selectedMode === "cerberus");
+  }}
+>
+  <option value="cerberus">Cerberus Games</option>
+  <option value="standard">Стандарт</option>
+  <option value="reuleaux">Reuleaux</option>
+</select>
 </label>
       
     </div>

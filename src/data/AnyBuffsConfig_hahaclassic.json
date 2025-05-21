@@ -21,6 +21,9 @@
     { "label": "+10%", "value": 10 },
     { "label": "+15%", "value": 15 }
   ],
+  "antigravBuffOptions": [
+    { "label": "+0%", "value": 0 }
+  ],
   "attackGeneratorOptions": [
   { "label": "0 шт. (+0%)", "value": 0 },
   { "label": "1 шт. (+4%)", "value": 4 },

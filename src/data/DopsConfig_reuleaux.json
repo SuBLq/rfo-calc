@@ -1,0 +1,15 @@
+
+{
+    "dopingOptions":[
+    { "label": "5%", "value": 5 },
+  { "label": "10%", "value": 10 },
+  { "label": "13%", "value": 13 },
+  { "label": "20%", "value": 20 },
+  { "label": "23%", "value": 23 },
+  { "label": "40%", "value": 40 },
+  { "label": "50%", "value": 50 },
+  { "label": "55%", "value": 55 },
+  { "label": "60%", "value": 60 },
+  { "label": "70%", "value": 70 }
+]
+}

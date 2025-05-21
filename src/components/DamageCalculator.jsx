@@ -6,6 +6,7 @@ export default function DamageCalculator({
   weaponModPercent = 0,
   supportBuff = 0,
   racialBuff = 0,
+  antigravBuff = 0,
   armorPropsBonus = 0,
   archonBonus = 0,
   magicArmorBonus = 0,
@@ -13,6 +14,8 @@ export default function DamageCalculator({
   siegeSetBonus = 0,
   dopingBonus = 0,
   generatorBonus = 0,
+  damageBoostMultiplier = 1,
+  mode,
 }) {
   if (!weapon) return <div>Выберите оружие</div>;
 
@@ -36,18 +39,20 @@ export default function DamageCalculator({
     weaponModPercent +
     supportBuff +
     racialBuff +
+    antigravBuff +
     armorPropsBonus +
     archonBonus +
     magicArmorBonus +
     leongradeBonus +
     siegeSetBonus +
     dopingBonus +   
-    generatorBonus;  
+    generatorBonus +
+    (weapon.eff || 0);
 
-  const minDamage = Math.round(baseMin * (1 + totalBonusPercent / 100));
-  const maxDamage = Math.round(baseMax * (1 + totalBonusPercent / 100));
-  const fminDamage = Math.round(fbaseMin * (1 + totalBonusPercent / 100));
-  const fmaxDamage = Math.round(fbaseMax * (1 + totalBonusPercent / 100));
+  const minDamage = Math.round(baseMin * (1 + totalBonusPercent / 100) * damageBoostMultiplier);
+  const maxDamage = Math.round(baseMax * (1 + totalBonusPercent / 100) * damageBoostMultiplier);
+  const fminDamage = Math.round(fbaseMin * (1 + totalBonusPercent / 100) * damageBoostMultiplier);
+  const fmaxDamage = Math.round(fbaseMax * (1 + totalBonusPercent / 100) * damageBoostMultiplier);
 
 
   return (
@@ -79,29 +84,62 @@ export default function DamageCalculator({
       </div>
   
       <details style={{ marginTop: '24px' }}>
-        <summary style={{ fontSize: '18px', fontWeight: 'bold', cursor: 'pointer' }}>
-          Детали
-        </summary>
-        <p style={{ marginTop: '8px' }}>
-          Аксессуары <span style={greenIfNotZero(accessorySum)}>{accessorySum}%</span>, 
-          сет <span style={greenIfNotZero(setBonusValue)}>{setBonusValue}%</span>, 
-          баффы <span style={greenIfNotZero(buffsSum)}>{buffsSum}%</span><br />
-  
-          Заточка <span style={greenIfNotZero(weaponModPercent)}>{weaponModPercent}%</span>, 
-          поддержка <span style={greenIfNotZero(supportBuff)}>{supportBuff}%</span>, 
-          расовый <span style={greenIfNotZero(racialBuff)}>{racialBuff}%</span><br />
-  
-          Свойства брони <span style={greenIfNotZero(armorPropsBonus)}>{armorPropsBonus}%</span>, 
-          архонта <span style={greenIfNotZero(archonBonus)}>{archonBonus}%</span>, 
-          маг.броня <span style={greenIfNotZero(magicArmorBonus)}>{magicArmorBonus}%</span><br />
-  
-          Леонгрейд <span style={greenIfNotZero(leongradeBonus)}>{leongradeBonus}%</span>, 
-          Осадный набор <span style={greenIfNotZero(siegeSetBonus)}>{siegeSetBonus}%</span><br />
-  
-          Допинг <span style={greenIfNotZero(dopingBonus)}>{dopingBonus}%</span>, 
-          Генератор <span style={greenIfNotZero(generatorBonus)}>{generatorBonus}%</span>
-        </p>
-      </details>
+  <summary style={{ fontSize: '18px', fontWeight: 'bold', cursor: 'pointer' }}>
+    Детали
+  </summary>
+  <div style={{ marginTop: '8px' }}>
+    <div>
+      Аксессуары <span style={greenIfNotZero(accessorySum)}>{accessorySum}%</span>
+    </div>
+    <div>
+      Собственный эффект <span style={greenIfNotZero(weapon.eff)}>{weapon.eff}%</span>
+    </div>
+    <div>
+      Баффы <span style={greenIfNotZero(buffsSum)}>{buffsSum}%</span>
+    </div>
+
+    <div>
+      Заточка <span style={greenIfNotZero(weaponModPercent)}>{weaponModPercent}%</span>
+    </div>
+    <div>
+      Поддержка <span style={greenIfNotZero(supportBuff)}>{supportBuff}%</span>
+    </div>
+    <div>
+      Расовый <span style={greenIfNotZero(racialBuff)}>{racialBuff}%</span>
+    </div>
+
+    <div>
+      Свойства брони <span style={greenIfNotZero(armorPropsBonus)}>{armorPropsBonus}%</span>
+    </div>
+    <div>
+      Архонта <span style={greenIfNotZero(archonBonus)}>{archonBonus}%</span>
+    </div>
+    <div>
+      Маг.броня <span style={greenIfNotZero(magicArmorBonus)}>{magicArmorBonus}%</span>
+    </div>
+
+    <div>
+      Леонгрейд <span style={greenIfNotZero(leongradeBonus)}>{leongradeBonus}%</span>
+    </div>
+    <div>
+      Осадный набор <span style={greenIfNotZero(siegeSetBonus)}>{siegeSetBonus}%</span>
+    </div>
+
+    <div>
+      Допинг <span style={greenIfNotZero(dopingBonus)}>{dopingBonus}%</span>
+    </div>
+    <div>
+      Генератор <span style={greenIfNotZero(generatorBonus)}>{generatorBonus}%</span>
+    </div>
+    <div>
+    {mode === "reuleaux" && (
+  <div style={{ marginTop: '0px' }}>
+    Антиграв <span style={greenIfNotZero(antigravBuff)}>{antigravBuff}%</span>
+  </div>
+)}
+    </div>
+  </div>
+</details>
     </div>
   );
   

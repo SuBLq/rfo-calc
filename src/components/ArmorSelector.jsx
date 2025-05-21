@@ -96,7 +96,9 @@ export default function ArmorSelector({
                 }}
               />
               Часть {idx + 1} (+{percent}%)
+              
             </label>
+            
           );
         })}
       </div>

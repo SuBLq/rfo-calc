@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import SpriteIcon from './SpriteIcon';
 
 const WeaponSelector = ({ weapons, onSelect, selectedWeaponId }) => {
-  const [selectedSlot, setSelectedSlot] = useState(10);
+  const [selectedSlot, setSelectedSlot] = useState(-1);
   const [selectedRare, setSelectedRare] = useState(-1); // -1 означает "все редкости"
 
   const slotLabels = {
+    "-1": "Все типы",
     10: 'Одноручное оружие',
     11: 'Двуручный меч',
     12: 'Топор',
@@ -29,25 +30,40 @@ const WeaponSelector = ({ weapons, onSelect, selectedWeaponId }) => {
     5: "Реликт",
   };
 
-  const slotOptions = Array.from(new Set(weapons.map(w => w.slot))).sort((a, b) => a - b);
+  const slotOptions = [-1, ...Array.from(new Set(weapons.map(w => w.slot))).sort((a, b) => a - b)];
 
+  
   const filteredWeapons = weapons.filter(w => {
-    const matchesSlot = w.slot === selectedSlot;
+    const matchesSlot = selectedSlot === -1 || w.slot === selectedSlot;
     const matchesRare = selectedRare === -1 || Number(w.rare) === selectedRare;
     return matchesSlot && matchesRare;
   });
 
-  useEffect(() => {
-    if (!selectedWeaponId && weapons.length > 0) {
-      onSelect(weapons[0].id);
-      setSelectedSlot(weapons[0].slot);
-    }
-  }, [selectedWeaponId, weapons, onSelect]);
+ 
+  const groupedByRare = filteredWeapons.reduce((groups, weapon) => {
+    const rareKey = weapon.rare ?? -1; 
+    if (!groups[rareKey]) groups[rareKey] = [];
+    groups[rareKey].push(weapon);
+    return groups;
+  }, {});
+
+
+  const sortedRareKeys = Object.keys(groupedByRare)
+    .map(key => Number(key))
+    .sort((a, b) => a - b);
+
+    useEffect(() => {
+      if (!selectedWeaponId && weapons.length > 0) {
+        onSelect(weapons[0].id);
+      }
+    }, [selectedWeaponId, weapons, onSelect]);
 
   useEffect(() => {
     if (!selectedWeaponId) return;
     const selected = weapons.find(w => w.id === selectedWeaponId);
-    if (selected) setSelectedSlot(selected.slot);
+    if (selected && selectedSlot !== -1) {
+      setSelectedSlot(selected.slot);
+    }
   }, [selectedWeaponId, weapons]);
 
   return (
@@ -82,24 +98,40 @@ const WeaponSelector = ({ weapons, onSelect, selectedWeaponId }) => {
 
       <div className="weapon-list">
         {filteredWeapons.length === 0 && <p>Нет оружия для выбранного фильтра.</p>}
-        {filteredWeapons.map(w => (
-          <div
-            key={w.id}
-            className={`weapon-entry ${selectedWeaponId === w.id ? 'selected' : ''}`}
-            onClick={() => onSelect(w.id)}
-          >
-            <span className={`weapon-name rarity-${w.rare}`}>
-              [{w.level}] {w.name}
-            </span>
-            <SpriteIcon index={w.iconIndex} size={32} />
-          </div>
-        ))}
+
+        {sortedRareKeys.map(rareKey => {
+          const weaponsInGroup = groupedByRare[rareKey].sort((a, b) => a.level - b.level);
+
+          
+          if (selectedRare !== -1 && Number(rareKey) !== selectedRare) return null;
+
+          return (
+            <div key={rareKey} className="weapon-group">
+              <h4 style={{ paddingLeft: '10px' }}>
+  {rareLabels[rareKey] || `Редкость ${rareKey}`}
+</h4>
+              {weaponsInGroup.map(w => (
+                <div
+                  key={w.id}
+                  className={`weapon-entry ${selectedWeaponId === w.id ? 'selected' : ''}`}
+                  onClick={() => onSelect(w.id)}
+                >
+                  <span className={`weapon-name rarity-${w.rare}`}>
+                    [{w.level}] {w.name}
+                  </span>
+                  <SpriteIcon index={w.iconIndex} size={32} />
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 export default WeaponSelector;
+
 
 
 
