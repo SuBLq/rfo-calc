@@ -44,7 +44,8 @@ import frameImg from './data/frame.png';
 const gradeImages = [grade0, grade1, grade2, grade3, grade4, grade5, grade6, grade7];
 
 const weaponMods = [0, 5, 13, 25, 50, 80, 135, 200];
-const DefWeaponMods = [0, 5, 10, 20, 45, 90, 145, 200]; 
+const DefWeaponMods = [0, 5, 10, 20, 45, 90, 145, 200];
+
 
 function ServerSelectorModal({ onSelect }) {
   return (
@@ -109,6 +110,13 @@ function App() {
 
   const [isDefWeapon, setIsDefWeapon] = React.useState(false);
   const activeWeaponMods = isDefWeapon ? DefWeaponMods : weaponMods;
+
+  const handleServerSelect = (selectedMode) => {
+    setMode(selectedMode);
+    setIsDefWeapon(selectedMode === "cerberus");
+  };
+  
+  {mode === "" && <ServerSelectorModal onSelect={handleServerSelect} />}
 
   const [customWeapons, setCustomWeapons] = React.useState(() => {
     const saved = localStorage.getItem("customWeapons");
@@ -243,9 +251,9 @@ function App() {
 
 // ОТРИСОВКА СНОВА БЛ ----------------------------------------------------------
 
-  if (!mode) {
-    return <ServerSelectorModal onSelect={setMode} />;
-  }
+if (!mode) {
+  return <ServerSelectorModal onSelect={handleServerSelect} />;
+}
 
   return (
     <div className="app-container">
@@ -530,8 +538,11 @@ function App() {
     const selectedMode = e.target.value;
     setMode(selectedMode);
 
-    // Включаем дефолтное оружие только для стандартного режима
+    // Включаем дефолтное оружие только для cerberus
     setIsDefWeapon(selectedMode === "cerberus");
+
+    // Сброс уровня заточки на +0 (или по-другому, если нужно)
+    setWeaponModIndex(0);
   }}
 >
   <option value="cerberus">Cerberus Games</option>
