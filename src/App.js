@@ -116,16 +116,14 @@ function App() {
     setIsDefWeapon(selectedMode === "cerberus");
   };
   
-  {mode === "" && <ServerSelectorModal onSelect={handleServerSelect} />}
+
 
   const [customWeapons, setCustomWeapons] = React.useState(() => {
     const saved = localStorage.getItem("customWeapons");
     return saved ? JSON.parse(saved) : [];
   });
   const [selectedId, setSelectedId] = React.useState(null);
-  const [selectedWeaponId, setSelectedWeaponId] = React.useState(null);
 
-  const [upgrade, setUpgrade] = React.useState(0);
   const [weaponModIndex, setWeaponModIndex] = React.useState(0);
 
   const [supportBuff, setSupportBuff] = React.useState(0);
@@ -136,19 +134,11 @@ function App() {
   const [setBonus, setSetBonus] = React.useState(0);
 
   const [race, setRace] = React.useState("Акретия");
-  const [isTypeB, setIsTypeB] = React.useState(false);
-
-  const handleRaceChange = (newRace) => {
-    setRace(newRace);
-    setSelectedBuffs([]);
-  };
 
   const [armorProperties, setArmorProperties] = React.useState([0, 0, 0, 0, 0]);
   const [archonArmor, setArchonArmor] = React.useState(false);
   const [magicArmor, setMagicArmor] = React.useState([false, false, false, false, false]);
 
-  const [leonGrade, setLeonGrade] = React.useState(null);
-  const [leongradeLevel, setLeongradeLevel] = React.useState(0);
   const [selectedLeongrade, setSelectedLeongrade] = React.useState(null);
 
   const weapons = [...(WeaponConfig.cerb || []), ...customWeapons];
@@ -342,25 +332,19 @@ if (!mode) {
 </strong>
 </div>
 
-    {selectedWeapon && (
+{selectedWeapon && (
   <div className="weapon-stats-list">
     <div>
       <span className="stat-label">Необходимый уровень:</span> {selectedWeapon.level ?? "—"}
     </div>
     <div>
-  <span className="stat-label">Атака:</span>{" "}
-  {isTypeB ? (
-    <>
-      {selectedWeapon.imin ?? "?"} - {selectedWeapon.imax ?? "?"}
-    </>
-  ) : (
-    <>
+      <span className="stat-label">Атака:</span>{" "}
       <span style={activeWeaponMods[weaponModIndex] > 0 ? { color: "#0AFF17" } : undefined}>
         {selectedWeapon.min != null
           ? Math.round(
               selectedWeapon.min *
               (1 + activeWeaponMods[weaponModIndex] / 100) *
-              damageBoostMultiplier  // <-- добавляем сюда
+              damageBoostMultiplier
             )
           : "?"}
         {" - "}
@@ -368,21 +352,17 @@ if (!mode) {
           ? Math.round(
               selectedWeapon.max *
               (1 + activeWeaponMods[weaponModIndex] / 100) *
-              damageBoostMultiplier  // <-- и сюда
+              damageBoostMultiplier
             )
           : "?"}
       </span>
-    </>
-  )}
-</div>
+    </div>
     <div>
       <span className="stat-label">Силовая атака:</span>{" "}
       {(selectedWeapon.fmin != null && selectedWeapon.fmax != null) ? (
-        <>
-          <span style={activeWeaponMods[weaponModIndex] > 0 ? { color: "#0AFF17" } : undefined}>
-            {Math.round(selectedWeapon.fmin * (1 + activeWeaponMods[weaponModIndex] / 100))} - {Math.round(selectedWeapon.fmax * (1 + activeWeaponMods[weaponModIndex] / 100))}
-          </span>
-        </>
+        <span style={activeWeaponMods[weaponModIndex] > 0 ? { color: "#0AFF17" } : undefined}>
+          {Math.round(selectedWeapon.fmin * (1 + activeWeaponMods[weaponModIndex] / 100))} - {Math.round(selectedWeapon.fmax * (1 + activeWeaponMods[weaponModIndex] / 100))}
+        </span>
       ) : (
         "—"
       )}
@@ -403,6 +383,7 @@ if (!mode) {
     </div>
   </div>
 )}
+
 
 
 <DamageCalculator
