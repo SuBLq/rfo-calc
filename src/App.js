@@ -276,40 +276,6 @@ function App() {
         </option>
       ))}
     </select>
-    {mode === "reuleaux" && (
-  <div style={{ marginBottom: '16px' }}>
-  <label>Качество оружия: </label><br />
-  <label>
-    <input
-      type="radio"
-      name="damageBoost"
-      checked={damageBoostMultiplier === 1}
-      onChange={() => setDamageBoostMultiplier(1)}
-    />
-    (+0% к базе)
-  </label>
-  {' '}
-  <label>
-    <input
-      type="radio"
-      name="damageBoost"
-      checked={damageBoostMultiplier === 1.025}
-      onChange={() => setDamageBoostMultiplier(1.025)}
-    />
-    (+2.5% к базе)
-  </label>
-  {' '}
-  <label>
-    <input
-      type="radio"
-      name="damageBoost"
-      checked={damageBoostMultiplier === 1.05}
-      onChange={() => setDamageBoostMultiplier(1.05)}
-    />
-    (+5% к базе)
-  </label>
-</div>
-)}
 
   <LeongradeSelector
   weapon={selectedWeapon}
@@ -483,6 +449,40 @@ function App() {
             RaceBuffsConfig={RaceBuffsConfig}
             mode={mode}
           />
+          {mode === "reuleaux" && (
+  <div style={{ marginBottom: '16px' }}>
+  <label>Качество оружия: </label><br />
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1}
+      onChange={() => setDamageBoostMultiplier(1)}
+    />
+    (+0% к базе)
+  </label>
+  {' '}
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1.025}
+      onChange={() => setDamageBoostMultiplier(1.025)}
+    />
+    (+2.5% к базе)
+  </label>
+  {' '}
+  <label>
+    <input
+      type="radio"
+      name="damageBoost"
+      checked={damageBoostMultiplier === 1.05}
+      onChange={() => setDamageBoostMultiplier(1.05)}
+    />
+    (+5% к базе)
+  </label>
+</div>
+)}
     </div>
 
 

@@ -185,24 +185,6 @@ export default function BuffSelector({
     </select>
   </div>
 
-  {/* Антиграв (только для reuleaux) */}
-  {mode === "reuleaux" && (
-    <div style={rowStyle}>
-      <label>Антиграв (Урон): </label>
-      <select
-        style={selectStyle}
-        value={antigravBuff}
-        onChange={(e) => setAntigravBuff(parseInt(e.target.value))}
-      >
-        {AnyBuffsConfig.antigravBuffOptions.map(({ label, value }, i) => (
-          <option key={`antigrav-${value}-${i}`} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-    </div>
-  )}
-
   {/* Активный допинг */}
   <div style={rowStyle}>
     <label>Активный допинг: </label>
@@ -235,6 +217,26 @@ export default function BuffSelector({
       ))}
     </select>
   </div>
+
+  {/* Антиграв (только для reuleaux) */}
+  {mode === "reuleaux" && (
+    <div style={rowStyle}>
+      <label>Антиграв (Урон): </label>
+      <select
+        style={selectStyle}
+        value={antigravBuff}
+        onChange={(e) => setAntigravBuff(parseInt(e.target.value))}
+      >
+        {AnyBuffsConfig.antigravBuffOptions.map(({ label, value }, i) => (
+          <option key={`antigrav-${value}-${i}`} value={value}>
+            {label}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+
+  
 </div>
 
     </div>
