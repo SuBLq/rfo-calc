@@ -25,6 +25,213 @@
   "antigravBuffOptions": [
     { "label": "+0%", "value": 0 }
   ],
+
+  "relicsetBuffOptionsMelee": [
+    { "label": "[Нет] +0%", "value": 0 },
+    { "label": "[50-3 части] +10%", "value": 10 },
+    { "label": "[50-4 части] +20%", "value": 20 },
+    { "label": "[50-5 части] +25%", "value": 25 },
+    { "label": "[55-3 части] +12%", "value": 12 },
+    { "label": "[55-4 части] +24%", "value": 24 },
+    { "label": "[55-5 части] +30%", "value": 30 },
+    { "label": "[60-3 части] +14%", "value": 14 },
+    { "label": "[60-4 части] +25%", "value": 25 },
+    { "label": "[60-5 части] +35%", "value": 35 }
+  ],
+
+  "relicsetBuffOptionsMeleeA": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +24%", "value": 24 },
+
+    { "label": "[60-3 Урон] +27%", "value": 27 },
+
+    { "label": "[60-4 Баланс] +26%", "value": 26 },
+    { "label": "[60-4 Урон] +34%", "value": 34 },
+
+    { "label": "[60-5 Баланс] +25%", "value": 25 },
+    { "label": "[60-5 Урон] +41%", "value": 41 }
+  ],
+
+  "relicsetBuffOptionsMeleeB": [
+    { "label": "[Нет] +0%", "value": 0 },
+    
+    { "label": "[55] +24%", "value": 24 },
+
+    { "label": "[60-3 Баланс] +18%", "value": 18 },
+    { "label": "[60-3 Урон] +21%", "value": 21 },
+
+    { "label": "[60-4 Баланс] +18%", "value": 18 },
+    { "label": "[60-4 Урон] +29%", "value": 29 },
+
+    { "label": "[60-5 Баланс] +18%", "value": 18 },
+    { "label": "[60-5 Урон] +33%", "value": 33 }
+  ],
+
+  "relicsetBuffOptionsMeleeC": [
+    { "label": "[Нет] +0%", "value": 0 },
+    
+    { "label": "[55] +24%", "value": 24 },
+
+    { "label": "[60-3 Баланс] +26%", "value": 26 },
+    { "label": "[60-3 Урон] +32%", "value": 32 },
+
+    { "label": "[60-4 Баланс] +26%", "value": 26 },
+    { "label": "[60-4 Урон] +36%", "value": 36 },
+
+    { "label": "[60-5 Баланс] +32%", "value": 32 },
+    { "label": "[60-5 Урон] +45%", "value": 45 }
+  ],
+
+
+
+
+
+
+
+
+
+  "relicsetBuffOptionsRange": [
+    { "label": "[Нет] +0%", "value": 0 },
+    { "label": "[50-3 части] +10%", "value": 10 },
+    { "label": "[50-4 части] +20%", "value": 20 },
+    { "label": "[50-5 части] +25%", "value": 25 },
+    { "label": "[55-3 части] +12%", "value": 12 },
+    { "label": "[55-4 части] +24%", "value": 24 },
+    { "label": "[55-5 части] +30%", "value": 30 },
+    { "label": "[60-3 части] +14%", "value": 14 },
+    { "label": "[60-4 части] +25%", "value": 25 },
+    { "label": "[60-5 части] +35%", "value": 35 }
+  ],
+
+
+  "relicsetBuffOptionsRangeA": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +14%", "value": 14 },
+
+    { "label": "[60-3 Баланс] +20%", "value": 20 },
+    { "label": "[60-3 Урон] +21%", "value": 21 },
+
+    { "label": "[60-4 Баланс] +20%", "value": 20 },
+    { "label": "[60-4 Урон] +26%", "value": 26 },
+
+    { "label": "[60-5 Баланс] +20%", "value": 20 },
+    { "label": "[60-5 Урон] +35%", "value": 35 }
+  ],
+
+  "relicsetBuffOptionsRangeB": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +14%", "value": 14 },
+
+    { "label": "[60-3 Баланс] +18%", "value": 18 },
+    { "label": "[60-3 Урон] +30%", "value": 30 },
+
+    { "label": "[60-4 Баланс] +18%", "value": 18 },
+    { "label": "[60-4 Урон] +33%", "value": 33 },
+
+    { "label": "[60-5 Баланс] +18%", "value": 18 },
+    { "label": "[60-5 Урон] +33%", "value": 33 }
+  ],
+
+  "relicsetBuffOptionsRangeC": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +14%", "value": 14 },
+
+    { "label": "[60-3 Баланс] +18%", "value": 18 },
+    { "label": "[60-3 Урон] +30%", "value": 30 },
+
+    { "label": "[60-4 Баланс] +18%", "value": 18 },
+    { "label": "[60-4 Урон] +33%", "value": 33 },
+
+    { "label": "[60-5 Баланс] +18%", "value": 18 },
+    { "label": "[60-5 Урон] +40%", "value": 40 }
+  ],
+
+
+
+
+
+
+
+
+  "relicsetBuffOptionsMage": [
+    { "label": "[Нет] +0%", "value": 0 },
+    { "label": "[50-3 части] +10%", "value": 10 },
+    { "label": "[50-4 части] +20%", "value": 20 },
+    { "label": "[50-5 части] +25%", "value": 25 },
+    { "label": "[55-3 части] +12%", "value": 12 },
+    { "label": "[55-4 части] +24%", "value": 24 },
+    { "label": "[55-5 части] +30%", "value": 30 },
+    { "label": "[60-3 части] +14%", "value": 14 },
+    { "label": "[60-4 части] +25%", "value": 25 },
+    { "label": "[60-5 части] +35%", "value": 35 }
+  ],
+
+  "relicsetBuffOptionsMageB": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +18%", "value": 18 },
+
+    { "label": "[60-3 Баланс] +21%", "value": 21 },
+    { "label": "[60-3 Урон] +30%", "value": 30 },
+
+    { "label": "[60-4 Баланс] +21%", "value": 21 },
+    { "label": "[60-4 Урон] +39%", "value": 39 },
+
+    { "label": "[60-5 Баланс] +21%", "value": 21 },
+    { "label": "[60-5 Урон] +44%", "value": 44 }
+  ],
+
+  "relicsetBuffOptionsMageC": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +18%", "value": 18 },
+
+    { "label": "[60-3 Баланс] +21%", "value": 21 },
+    { "label": "[60-3 Урон] +31%", "value": 31 },
+
+    { "label": "[60-4 Баланс] +21%", "value": 21 },
+    { "label": "[60-4 Урон] +36%", "value": 36 },
+
+    { "label": "[60-5 Баланс] +21%", "value": 21 },
+    { "label": "[60-5 Урон] +39%", "value": 39 }
+  ],
+
+
+
+
+
+
+
+  "relicsetBuffOptionsLauncher": [
+    { "label": "[Нет] +0%", "value": 0 },
+    { "label": "[55-4 части] +10%", "value": 10 },
+    { "label": "[55-5 части] +15%", "value": 15 },
+    { "label": "[60-4 части] +12%", "value": 12 },
+    { "label": "[60-5 части] +16%", "value": 16 }
+  ],
+  "relicsetBuffOptionsLauncherA": [
+    { "label": "[Нет] +0%", "value": 0 },
+
+    { "label": "[55] +18%", "value": 18 },
+
+    { "label": "[60-3 Унив.] +21%", "value": 18 },
+    { "label": "[60-3 Урон] +31%", "value": 26 },
+
+    { "label": "[60-4 Баланс] +14%", "value": 14 },
+    { "label": "[60-4 Унив.] +18%", "value": 18 },
+    { "label": "[60-4 Урон] +31%", "value": 31 },
+
+
+    { "label": "[60-5 Баланс] +14%", "value": 14 },
+    { "label": "[60-5 Унив.] +18%", "value": 18 },
+    { "label": "[60-5 Урон] +41%", "value": 41 }  
+  ],
+
+
   "attackGeneratorOptions": [
     { "label": "0 шт. (+0%)", "value": 0 },
     { "label": "1 шт. (+4%)", "value": 4 },

@@ -7,6 +7,7 @@ export default function DamageCalculator({
   supportBuff = 0,
   racialBuff = 0,
   antigravBuff = 0,
+  relicsetBuff = 0,
   armorPropsBonus = 0,
   archonBonus = 0,
   magicArmorBonus = 0,
@@ -40,6 +41,7 @@ export default function DamageCalculator({
     supportBuff +
     racialBuff +
     antigravBuff +
+    relicsetBuff +
     armorPropsBonus +
     archonBonus +
     magicArmorBonus +
@@ -131,6 +133,18 @@ export default function DamageCalculator({
     <div>
       Генератор <span style={greenIfNotZero(generatorBonus)}>{generatorBonus}%</span>
     </div>
+    {mode === "cerberus" && (
+    <div>
+      Палмас/Рел.Сет <span style={greenIfNotZero(relicsetBuff)}>{relicsetBuff}%</span>
+    </div>
+    
+    )}
+    {mode === "reuleaux" && (
+    <div>
+      Палмас Сет <span style={greenIfNotZero(relicsetBuff)}>{relicsetBuff}%</span>
+    </div>
+    
+    )}
     <div>
     {mode === "reuleaux" && (
   <div style={{ marginTop: '0px' }}>

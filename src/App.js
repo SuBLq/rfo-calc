@@ -129,6 +129,7 @@ function App() {
   const [supportBuff, setSupportBuff] = React.useState(0);
   const [racialBuff, setRacialBuff] = React.useState(0);
   const [antigravBuff, setAntigravBuff] = React.useState(0);
+  const [relicsetBuff, setRelicsetBuff] = React.useState(0);
   const [selectedBuffs, setSelectedBuffs] = React.useState([]);
   const [accessoryBonuses, setAccessoryBonuses] = React.useState([0, 0, 0, 0]);
   const [setBonus, setSetBonus] = React.useState(0);
@@ -201,6 +202,9 @@ function App() {
   const [damageBoostMultiplier, setDamageBoostMultiplier] = useState(1);
   const damageSuffix = damageBoostMultiplier === 1.025 ? "+" : damageBoostMultiplier === 1.05 ? "++" : "";
 
+  const [relicsetBuff1, setRelicsetBuff1] = useState(0);
+  const [relicsetBuff2, setRelicsetBuff2] = useState(0);
+
   React.useEffect(() => {
     setGeneratorBonus(attackGeneratorCount);
   }, [attackGeneratorCount]);
@@ -210,9 +214,13 @@ function App() {
     setSiegeSetBuff(0);
     setSupportBuff(0);
     setAntigravBuff(0);
+    setRelicsetBuff(0);
     setRacialBuff(0);
     setActiveDoping(0);
     setAttackGeneratorCount(0);
+    setRelicsetBuff(0);
+    setRelicsetBuff1(0);
+    setRelicsetBuff2(0);
     setSelectedBuffs([]);
   }, [mode, race, weaponType]);
   
@@ -395,6 +403,7 @@ if (!mode) {
         supportBuff={supportBuff}
         racialBuff={racialBuff}
         antigravBuff={antigravBuff}
+        relicsetBuff={relicsetBuff}
         armorPropsBonus={armorPropsSum}
         archonBonus={archonBonus}
         magicArmorBonus={magicArmorBonus}
@@ -427,6 +436,7 @@ if (!mode) {
             racialBuff={racialBuff}
             setRacialBuff={setRacialBuff}
             setAntigravBuff={setAntigravBuff}
+            setRelicsetBuff={setRelicsetBuff}
             siegeSetBuff={siegeSetBuff}
             setSiegeSetBuff={setSiegeSetBuff}
             activeDoping={activeDoping}
@@ -436,6 +446,10 @@ if (!mode) {
             AnyBuffsConfig={AnyBuffsConfig}
             DopsConfig={DopsConfig}
             RaceBuffsConfig={RaceBuffsConfig}
+            relicsetBuff1={relicsetBuff1}
+            setRelicsetBuff1={setRelicsetBuff1}
+            relicsetBuff2={relicsetBuff2}
+            setRelicsetBuff2={setRelicsetBuff2}
             mode={mode}
           />
           {mode === "reuleaux" && (

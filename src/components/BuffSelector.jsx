@@ -49,6 +49,8 @@ export default function BuffSelector({
   setRacialBuff,
   antigravBuff,
   setAntigravBuff,
+  relicsetBuff,
+  setRelicsetBuff,
   siegeSetBuff,
   setSiegeSetBuff,
   activeDoping,
@@ -58,6 +60,10 @@ export default function BuffSelector({
   AnyBuffsConfig,
   DopsConfig,
   RaceBuffsConfig,
+  relicsetBuff1,
+  setRelicsetBuff1,
+  relicsetBuff2,
+  setRelicsetBuff2,
   mode,
 }) {
   const [dopingOptions, setDopingOptions] = useState([]);
@@ -82,6 +88,63 @@ export default function BuffSelector({
     e.currentTarget.style.backgroundColor = isSelected ? "#1a3a5a" : "#2a4365";
     e.currentTarget.style.color = "#ffffff";
   };
+
+  //---------------------------------------------------------//---------------------------------------------------------
+
+const relicsetOptionsMap = {
+  1: {
+    base: AnyBuffsConfig.relicsetBuffOptionsMelee,
+    Акретия: AnyBuffsConfig.relicsetBuffOptionsMeleeA,
+    Беллато: AnyBuffsConfig.relicsetBuffOptionsMeleeB,
+    Кора: AnyBuffsConfig.relicsetBuffOptionsMeleeC,
+  },
+  2: {
+    base: AnyBuffsConfig.relicsetBuffOptionsRange,
+    Акретия: AnyBuffsConfig.relicsetBuffOptionsRangeA,
+    Беллато: AnyBuffsConfig.relicsetBuffOptionsRangeB,
+    Кора: AnyBuffsConfig.relicsetBuffOptionsRangeC,
+  },
+  3: {
+    base: AnyBuffsConfig.relicsetBuffOptionsMage,
+    Беллато: AnyBuffsConfig.relicsetBuffOptionsMageB,
+    Кора: AnyBuffsConfig.relicsetBuffOptionsMageC,
+  },
+  4: {
+    base: AnyBuffsConfig.relicsetBuffOptionsLauncher,
+    Акретия: AnyBuffsConfig.relicsetBuffOptionsLauncherA,
+  },
+};
+
+const RelicSetSelect = ({
+  label,
+  value,
+  disabled,
+  onChange,
+  options,
+  prefix,
+}) => (
+  <div style={rowStyle}>
+    <label>{label}</label>
+    <select
+      style={selectStyle}
+      value={value}
+      disabled={disabled}
+      onChange={(e) => {
+        const val = parseInt(e.target.value);
+        setRelicsetBuff(val);
+        onChange(val);
+      }}
+    >
+      {options.map(({ label, value }, i) => (
+        <option key={`${prefix}-${value}-${i}`} value={value}>
+          {label}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
+//---------------------------------------------------------//---------------------------------------------------------
 
   return (
     <div>
@@ -217,6 +280,69 @@ export default function BuffSelector({
       ))}
     </select>
   </div>
+
+  {/* Сет (церб онли)*/}
+
+
+  {mode === "cerberus" && relicsetOptionsMap[weaponType] && (
+  <>
+  <h3>Сета для {race}, тип оружия {weaponType}:</h3>
+    <RelicSetSelect
+      label="Палмас.сет: "
+      value={relicsetBuff1}
+      disabled={relicsetBuff2 !== 0}
+      prefix="relicset1"
+      options={relicsetOptionsMap[weaponType].base}
+      onChange={(val) => {
+        setRelicsetBuff1(val);
+        if (val !== 0) setRelicsetBuff2(0);
+      }}
+    />
+
+    {relicsetOptionsMap[weaponType][race] && (
+      <RelicSetSelect
+        label="Рел.сет: "
+        value={relicsetBuff2}
+        disabled={relicsetBuff1 !== 0}
+        prefix="relicset2"
+        options={relicsetOptionsMap[weaponType][race]}
+        onChange={(val) => {
+          setRelicsetBuff2(val);
+          if (val !== 0) setRelicsetBuff1(0);
+        }}
+      />
+    )}
+  </>
+)}
+
+
+{/*Сета палмасы для рело*/}
+
+{mode === "reuleaux" && relicsetOptionsMap[weaponType] && (
+  <>
+  <h3>Сета для {race}, тип оружия {weaponType}:</h3>
+    <RelicSetSelect
+      label="Палмас.сет: "
+      value={relicsetBuff1}
+      disabled={relicsetBuff2 !== 0}
+      prefix="relicset1"
+      options={relicsetOptionsMap[weaponType].base}
+      onChange={(val) => {
+        setRelicsetBuff1(val);
+        if (val !== 0) setRelicsetBuff2(0);
+      }}
+    />
+  </>
+)}
+
+
+
+
+
+
+
+
+
 
   {/* Антиграв (только для reuleaux) */}
   {mode === "reuleaux" && (
