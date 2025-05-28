@@ -205,6 +205,9 @@ function App() {
   const [relicsetBuff1, setRelicsetBuff1] = useState(0);
   const [relicsetBuff2, setRelicsetBuff2] = useState(0);
 
+  const [guildBuff, setGuildBuff] = useState(0);
+  const [paragonsBuff, setParagonsBuff] = useState(0);
+
   React.useEffect(() => {
     setGeneratorBonus(attackGeneratorCount);
   }, [attackGeneratorCount]);
@@ -221,6 +224,8 @@ function App() {
     setRelicsetBuff(0);
     setRelicsetBuff1(0);
     setRelicsetBuff2(0);
+    setGuildBuff(0);
+    setParagonsBuff(0);
     setSelectedBuffs([]);
   }, [mode, race, weaponType]);
   
@@ -414,6 +419,8 @@ if (!mode) {
         generatorBonus={generatorBonus}
         damageBoostMultiplier={damageBoostMultiplier} 
         mode={mode}
+        guildBuff={guildBuff}
+        paragonsBuff={paragonsBuff}
       />
 
   </div>
@@ -450,6 +457,10 @@ if (!mode) {
             setRelicsetBuff1={setRelicsetBuff1}
             relicsetBuff2={relicsetBuff2}
             setRelicsetBuff2={setRelicsetBuff2}
+            guildBuff={guildBuff}
+            setGuildBuff={setGuildBuff}
+            paragonsBuff={paragonsBuff}
+            setParagonsBuff={setParagonsBuff}
             mode={mode}
           />
           {mode === "reuleaux" && (

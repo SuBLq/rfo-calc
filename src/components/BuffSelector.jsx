@@ -64,6 +64,10 @@ export default function BuffSelector({
   setRelicsetBuff1,
   relicsetBuff2,
   setRelicsetBuff2,
+  guildBuff, 
+  setGuildBuff,
+  paragonsBuff, 
+  setParagonsBuff,
   mode,
 }) {
   const [dopingOptions, setDopingOptions] = useState([]);
@@ -283,7 +287,6 @@ const RelicSetSelect = ({
 
   {/* Сет (церб онли)*/}
 
-
   {mode === "cerberus" && relicsetOptionsMap[weaponType] && (
   <>
   <h3>Сета для {race}, тип оружия {weaponType}:</h3>
@@ -312,6 +315,38 @@ const RelicSetSelect = ({
         }}
       />
     )}
+  </>
+)}
+
+{mode === "cerberus" && relicsetOptionsMap[weaponType] && (
+  <>
+    <h3>Иные баффы:</h3>
+
+    <div style={rowStyle}>
+      <label>Бонус Умения Гильдии:</label>
+      <select
+        style={selectStyle}
+        value={guildBuff}
+        onChange={(e) => setGuildBuff(parseFloat(e.target.value))}
+      >
+        {(AnyBuffsConfig?.guildBuffOptions || []).map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
+
+    <div style={rowStyle}>
+      <label>Бонус Парагонов:</label>
+      <select
+        style={selectStyle}
+        value={paragonsBuff}
+        onChange={(e) => setParagonsBuff(parseFloat(e.target.value))}
+      >
+        {(AnyBuffsConfig?.paragonsBuffOptions || []).map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
   </>
 )}
 

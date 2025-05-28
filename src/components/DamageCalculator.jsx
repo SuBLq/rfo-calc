@@ -16,6 +16,8 @@ export default function DamageCalculator({
   dopingBonus = 0,
   generatorBonus = 0,
   damageBoostMultiplier = 1,
+  guildBuff = 0,
+  paragonsBuff = 0,
   mode,
 }) {
   if (!weapon) return <div>Выберите оружие</div>;
@@ -49,6 +51,8 @@ export default function DamageCalculator({
     siegeSetBonus +
     dopingBonus +   
     generatorBonus +
+    guildBuff +
+    paragonsBuff +
     (weapon.eff || 0);
 
   const minDamage = Math.round(baseMin * (1 + totalBonusPercent / 100) * damageBoostMultiplier);
@@ -139,6 +143,16 @@ export default function DamageCalculator({
     </div>
     
     )}
+    {mode === "cerberus" && (
+    <div>
+    Гильдия <span style={greenIfNotZero(guildBuff)}>{guildBuff}%</span>
+  </div>
+  )}
+  {mode === "cerberus" && (
+  <div>
+    Прокачка <span style={greenIfNotZero(paragonsBuff)}>{paragonsBuff}%</span>
+  </div>
+  )}
     {mode === "reuleaux" && (
     <div>
       Палмас Сет <span style={greenIfNotZero(relicsetBuff)}>{relicsetBuff}%</span>
