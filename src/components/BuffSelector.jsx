@@ -287,7 +287,7 @@ const RelicSetSelect = ({
 
   {/* Сет (церб онли)*/}
 
-  {mode === "cerberus" && relicsetOptionsMap[weaponType] && (
+  {["cerberus", "cerberus_se"].includes(mode) && relicsetOptionsMap[weaponType] && (
   <>
   <h3>Сета для {race}, тип оружия {weaponType}:</h3>
     <RelicSetSelect
@@ -318,7 +318,7 @@ const RelicSetSelect = ({
   </>
 )}
 
-{mode === "cerberus" && relicsetOptionsMap[weaponType] && (
+{["cerberus", "cerberus_se"].includes(mode) && relicsetOptionsMap[weaponType] && (
   <>
     <h3>Иные баффы:</h3>
 

@@ -9,24 +9,30 @@ import AccessorySelector from "./components/AccessorySelector";
 import LeongradeSelector from './components/LeongradeSelector';
 import ArmorSelector from "./components/ArmorSelector";
 import BuffSelector from "./components/BuffSelector";
+import RelicsSelector from "./components/RelicsSelector";
 
 import armorDataStandard from "./data/armorData_hahaclassic.json";
 import armorDataCerberus from "./data/armorData_cerberus.json";
+import armorDataCerberus_se from "./data/armorData_cerberus_se.json";
 import armorDataReuleaux from "./data/armorData_reuleaux.json";
 
 import AnyBuffsConfig_cerberus from './data/AnyBuffsConfig_cerberus.json';
+import AnyBuffsConfig_cerberus_se from './data/AnyBuffsConfig_cerberus_se.json';
 import AnyBuffsConfig_hahaclassic from './data/AnyBuffsConfig_hahaclassic.json';
 import AnyBuffsConfig_reuleaux from './data/AnyBuffsConfig_reuleaux.json';
 
 import DopsConfig_cerberus from './data/DopsConfig_cerberus.json';
+import DopsConfig_cerberus_se from './data/DopsConfig_cerberus_se.json';
 import DopsConfig_hahaclassic from './data/DopsConfig_hahaclassic.json';
 import DopsConfig_reuleaux from './data/DopsConfig_reuleaux.json';
 
 import WeaponsConfig_cerberus from './data/WeaponsConfig_cerberus';
+import WeaponsConfig_cerberus_se from './data/WeaponsConfig_cerberus_se';
 import WeaponsConfig_hahaclassic from './data/WeaponsConfig_hahaclassic';
 import WeaponsConfig_reuleaux from './data/WeaponsConfig_reuleaux.json';
 
 import RaceBuffsConfig_cerberus from './data/RaceBuffsConfig_cerberus';
+import RaceBuffsConfig_cerberus_se from './data/RaceBuffsConfig_cerberus_se';
 import RaceBuffsConfig_hahaclassic from './data/RaceBuffsConfig_hahaclassic.json';
 import RaceBuffsConfig_reuleaux from './data/RaceBuffsConfig_reuleaux.json';
 
@@ -48,6 +54,22 @@ const DefWeaponMods = [0, 5, 10, 20, 45, 90, 145, 200];
 
 
 function ServerSelectorModal({ onSelect }) {
+  const btn = {
+    margin: "0.5rem",
+    padding: "0.6rem 1rem",
+    fontSize: "1rem",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+  };
+  const bigBtn = {
+    ...btn,
+    width: "100%",
+    padding: "1rem 1.25rem",
+    fontSize: "1.15rem",
+    fontWeight: 700,
+  };
+
   return (
     <div style={{
       position: "fixed",
@@ -62,15 +84,34 @@ function ServerSelectorModal({ onSelect }) {
         backgroundColor: "#34495e",
         padding: "2rem",
         borderRadius: "8px",
-        minWidth: "300px",
+        minWidth: "320px",
         textAlign: "center",
       }}>
-        <h2 style={{ color: "#ffffff" }}>
-  Выберите сервер для расчёта (меняется в нижнем блоке калькулятора)
-</h2>
-        <button onClick={() => onSelect("cerberus")} style={{ margin: "0.5rem" }}>Cerberus Games</button>
-        <button onClick={() => onSelect("reuleaux")} style={{ margin: "0.5rem" }}>Reuleaux</button>
-        <button onClick={() => onSelect("standard")} style={{ margin: "0.5rem" }}>Стандарт</button>
+        <h2 style={{ color: "#ffffff", marginTop: 0 }}>
+          Выберите сервер для расчёта (меняется в нижнем блоке калькулятора)
+        </h2>
+
+        {/* первая строка — одна большая кнопка */}
+        <div style={{ marginBottom: "0.75rem" }}>
+          <button
+            onClick={() => onSelect("cerberus_se")}
+            style={bigBtn}
+          >
+            Cerberus Stage Era
+          </button>
+        </div>
+
+        {/* вторая строка — три кнопки в ряд */}
+        <div style={{
+          display: "flex",
+          gap: "0.5rem",
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}>
+          <button onClick={() => onSelect("cerberus")} style={btn}>Cerberus Classic</button>
+          <button onClick={() => onSelect("reuleaux")} style={btn}>Reuleaux</button>
+          <button onClick={() => onSelect("standard")} style={btn}>Стандарт</button>
+        </div>
       </div>
     </div>
   );
@@ -79,10 +120,19 @@ function ServerSelectorModal({ onSelect }) {
 function App() {
   
   const [mode, setMode] = useState(null);
+
+  const [relicsAtkPct, setRelicsAtkPct] = useState(0);
   // ----------------------
   let armorData, AnyBuffsConfig, DopsConfig, WeaponConfig, RaceBuffsConfig;
 
   switch (mode) {
+    case "cerberus_se":
+      armorData = armorDataCerberus_se;
+      AnyBuffsConfig = AnyBuffsConfig_cerberus_se;
+      DopsConfig = DopsConfig_cerberus_se;
+      WeaponConfig = WeaponsConfig_cerberus_se;
+      RaceBuffsConfig = RaceBuffsConfig_cerberus_se;
+      break;
     case "cerberus":
       armorData = armorDataCerberus;
       AnyBuffsConfig = AnyBuffsConfig_cerberus;
@@ -113,7 +163,7 @@ function App() {
 
   const handleServerSelect = (selectedMode) => {
     setMode(selectedMode);
-    setIsDefWeapon(selectedMode === "cerberus");
+    setIsDefWeapon(selectedMode === "cerberus_se");
   };
   
 
@@ -125,6 +175,8 @@ function App() {
   const [selectedId, setSelectedId] = React.useState(null);
 
   const [weaponModIndex, setWeaponModIndex] = React.useState(0);
+
+  const [intAtkEnabled, setIntAtkEnabled] = useState(false); // стринта
 
   const [supportBuff, setSupportBuff] = React.useState(0);
   const [racialBuff, setRacialBuff] = React.useState(0);
@@ -147,6 +199,13 @@ function App() {
   const selectedWeapon = weapons.find(w => w.id === selectedId);
 
   const weaponType = selectedWeapon?.type || 1;
+
+    // 10% для всех, кроме cerberus_se/ для cerberus_se — 15%
+  const intAtkValue = mode === "cerberus_se" ? 15 : 10;
+
+  // активен только если выбрано оружие и его редкость = 0 (инта)
+  const isIntWeapon = Number(selectedWeapon?.rare) === 0;
+  const intAtkBonus = intAtkEnabled && isIntWeapon ? intAtkValue : 0;
 
   const buffsForSelection = RaceBuffsConfig.classBuffsByRace?.[race]?.[weaponType] || [];
 
@@ -211,6 +270,10 @@ function App() {
   React.useEffect(() => {
     setGeneratorBonus(attackGeneratorCount);
   }, [attackGeneratorCount]);
+
+  React.useEffect(() => {
+    if (!isIntWeapon) setIntAtkEnabled(false);
+  }, [selectedWeapon?.id, selectedWeapon?.rare, mode]);
 
   React.useEffect(() => {
     // При смене режима или ключевых параметров сбрасываем селекторы в дефолт
@@ -288,6 +351,19 @@ if (!mode) {
       ))}
     </select>
 
+    
+    {isIntWeapon && (
+  <label style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 8 }}>
+    <input
+      type="checkbox"
+      checked={intAtkEnabled}
+      onChange={(e) => setIntAtkEnabled(e.target.checked)}
+    />
+    +{intAtkValue}% атаки (Тип-С Урон)
+  </label>
+)}
+
+    
   <LeongradeSelector
   weapon={selectedWeapon}
   onChange={setSelectedLeongrade}
@@ -421,6 +497,8 @@ if (!mode) {
         mode={mode}
         guildBuff={guildBuff}
         paragonsBuff={paragonsBuff}
+        relicsAtkPct={relicsAtkPct}
+        modeAtkBonus={intAtkBonus}
       />
 
   </div>
@@ -528,14 +606,35 @@ if (!mode) {
 </div>
 
         </div>
+        
       </div>
+
+
+
+
+      {mode === "cerberus_se" && (
+  <div className="extra-section">
+    <div className="bottom-left">
+      <h2>Выбор реликвий</h2>
+      {["cerberus_se"].includes(mode) && (
+        <RelicsSelector onChange={setRelicsAtkPct} />
+      )}
+      <div>Текущий бонус атаки от реликвий: {relicsAtkPct}%</div>
+
+    </div>
+  </div>
+)}
+
+
       <div className="extra-section">
       <div className="bottom-left">
+        
       <div style={{ 
   backgroundColor: '#34495e', 
   padding: '12px 16px',  
   margin: '16px 0'
 }}>
+  
   <label>
   Выбор, для какого сервера расчёт (баффы, талики и т.д.):{' '}   
   <select
@@ -545,19 +644,21 @@ if (!mode) {
     setMode(selectedMode);
 
     // Включаем дефолтное оружие только для cerberus
-    setIsDefWeapon(selectedMode === "cerberus");
+    setIsDefWeapon(["cerberus", "cerberus_se"].includes(selectedMode));
 
     // Сброс уровня заточки на +0 (или по-другому, если нужно)
     setWeaponModIndex(0);
   }}
 >
-  <option value="cerberus">Cerberus Games</option>
+  <option value="cerberus_se">Cerberus Stage Era</option>
+  <option value="cerberus">Cerberus Classic</option>
   <option value="standard">Стандарт</option>
   <option value="reuleaux">Reuleaux</option>
 </select>
 </label>
       
     </div>
+    
       </div>
         </div>
       <div className="extra-section">
@@ -606,6 +707,8 @@ if (!mode) {
 <h4>Первоисточник на форуме Cerberus Games.</h4>
 
         </div>
+
+
 
 
   </div>
